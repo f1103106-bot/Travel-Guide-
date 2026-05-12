@@ -53,21 +53,21 @@ The JSON schema should follow this structure:
 }
 `;
 
-  const response = await ai.models.generateContent({
-    model,
-    contents: `Generate a comprehensive 3-day travel guide for [${destination}] for a [${persona}]. 
-Include 5 top attractions, 2 hidden gems, 3 culinary bucket list items with shop recommendations and prices, logistics (MRT/YouBike), and 2026 updates.`,
-    config: {
-      systemInstruction,
-      responseMimeType: "application/json",
-      tools: [{ googleSearch: {} }],
-    },
-  });
-
   try {
+    const response = await ai.models.generateContent({
+      model,
+      contents: `Generate a comprehensive 3-day travel guide for [${destination}] for a [${persona}]. 
+Include 5 top attractions, 2 hidden gems, 3 culinary bucket list items with shop recommendations and prices, logistics (MRT/YouBike), and 2026 updates.`,
+      config: {
+        systemInstruction,
+        responseMimeType: "application/json",
+        tools: [{ googleSearch: {} }],
+      },
+    });
+
     return JSON.parse(response.text || "{}");
   } catch (e) {
-    console.error("Failed to parse AI response:", e);
+    console.error("Failed to generate guide:", e);
     return null;
   }
 };
